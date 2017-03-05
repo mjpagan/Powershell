@@ -1,0 +1,5 @@
+Name,samAccountName,ParentOU
+TestUser1,TestUser1,"OU=EndUsers"
+TestUser2,TestUser2,"OU=EndUsers"
+HR1,HR1,"OU=EndUsers"
+HR2,HR2,"OU=EndUsers"
