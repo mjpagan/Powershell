@@ -11,18 +11,17 @@ Catch
 #----------------------------------------------------------
 #STATIC VARIABLES
 #----------------------------------------------------------
-$path     = Split-Path -parent $MyInvocation.MyCommand.Definition
-$newpath  = "C:\Scripts\NewUsers.csv"
+# $path     = Split-Path -parent $MyInvocation.MyCommand.Definition
+$InputCSV = "C:\Scripts\NewUsers.csv"
 $log      = "C:\Scripts\Create-BulkADUsers-CSV.log"
 $date     = Get-Date
 $addn     = (Get-ADDomain).DistinguishedName
 $dnsroot  = (Get-ADDomain).DNSRoot
-$i        = 1
 
 "Processing started (on " + $date + "): " | Out-File $log -append
 "--------------------------------------------" | Out-File $log -append
 
-Import-Csv $newpath | ForEach-Object {
+Import-Csv $InputCSV | ForEach-Object {
  $userPrincinpal = $_.samAccountName + "@$dnsroot"
  $ou = $_.ParentOU + ",$addn"
 New-ADUser -Name $_.Name `
@@ -32,6 +31,6 @@ New-ADUser -Name $_.Name `
  -AccountPassword (ConvertTo-SecureString "Password123" -AsPlainText -Force) `
  -ChangePasswordAtLogon $false  `
  -Enabled $true
- Write-Host "[INFO]`t Created new user : $($userPrincinpal)" 
+ Write-Host "[INFO]`t Created new user : $($userPrincinpal)"
  }
 #Add-ADGroupMember "Domain Admins" $_.samAccountName}
